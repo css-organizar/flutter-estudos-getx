@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teste_unitarios/presentation/home/home_controller.dart';
 
+import 'components/listtile_inkwell.dart';
+
 class HomeTesteFlutter extends StatefulWidget {
   const HomeTesteFlutter({Key? key}) : super(key: key);
 
@@ -41,53 +43,15 @@ class _HomeTesteFlutterState extends State<HomeTesteFlutter> {
                 : ListView.builder(
                     itemCount: controller.personStore.listaPessoas.length,
                     itemBuilder: (context, i) {
-                      return InkWell(
-                        onTap: () {
-                          controller.setSelectedPerson(int.parse(controller.personStore.listaPessoas[i].id));
-                        },
-                        child: Obx(
-                          () => ListTile(
-                            selected:
-                                (controller.selectedPerson == int.parse(controller.personStore.listaPessoas[i].id)),
-                            title: Text(
-                                '${controller.personStore.listaPessoas[i].name} (${controller.personStore.listaPessoas[i].id})'),
-                            subtitle: Text('Idade: ${controller.personStore.listaPessoas[i].age.toString()}'),
-                          ),
-                        ),
+                      return ListTileInkWell(
+                        id: controller.personStore.listaPessoas[i].id,
+                        nome:
+                            '${controller.personStore.listaPessoas[i].name} (${controller.personStore.listaPessoas[i].id})',
+                        age: controller.personStore.listaPessoas[i].age,
                       );
                     },
                   );
           },
-        ),
-      ),
-    );
-  }
-}
-
-class ListTileInkWell extends StatelessWidget {
-  final String id;
-  final String nome;
-  final int age;
-
-  const ListTileInkWell({
-    Key? key,
-    required this.id,
-    required this.nome,
-    required this.age,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    HomeController controller = Get.find<HomeController>();
-    return InkWell(
-      onTap: () {
-        controller.setSelectedPerson(int.parse(id));
-      },
-      child: Obx(
-        () => ListTile(
-          selected: (controller.selectedPerson == int.parse(id)),
-          title: Text(nome),
-          subtitle: Text('Idade: ${age.toString()}'),
         ),
       ),
     );
