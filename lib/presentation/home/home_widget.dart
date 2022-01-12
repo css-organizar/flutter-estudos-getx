@@ -34,17 +34,26 @@ class _HomeTesteFlutterState extends State<HomeTesteFlutter> {
         margin: EdgeInsets.all(8),
         child: Obx(
           () {
-            return controller.isLoading
+            return controller.personStore.isLoading
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
                 : ListView.builder(
-                    itemCount: controller.listaPessoas.length,
+                    itemCount: controller.personStore.listaPessoas.length,
                     itemBuilder: (context, i) {
-                      return ListTileInkWell(
-                        id: controller.listaPessoas[i].id,
-                        nome: '${controller.listaPessoas[i].name} (${controller.listaPessoas[i].id})',
-                        age: controller.listaPessoas[i].age,
+                      return InkWell(
+                        onTap: () {
+                          controller.setSelectedPerson(int.parse(controller.personStore.listaPessoas[i].id));
+                        },
+                        child: Obx(
+                          () => ListTile(
+                            selected:
+                                (controller.selectedPerson == int.parse(controller.personStore.listaPessoas[i].id)),
+                            title: Text(
+                                '${controller.personStore.listaPessoas[i].name} (${controller.personStore.listaPessoas[i].id})'),
+                            subtitle: Text('Idade: ${controller.personStore.listaPessoas[i].age.toString()}'),
+                          ),
+                        ),
                       );
                     },
                   );
@@ -74,10 +83,12 @@ class ListTileInkWell extends StatelessWidget {
       onTap: () {
         controller.setSelectedPerson(int.parse(id));
       },
-      child: ListTile(
-        selected: (controller.selectedPerson == int.parse(id)),
-        title: Text(nome),
-        subtitle: Text('Idade: ${age.toString()}'),
+      child: Obx(
+        () => ListTile(
+          selected: (controller.selectedPerson == int.parse(id)),
+          title: Text(nome),
+          subtitle: Text('Idade: ${age.toString()}'),
+        ),
       ),
     );
   }
