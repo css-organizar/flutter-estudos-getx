@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
-class Person {
+class PersonEntity {
   final String id;
   final String name;
   final int age;
   final double height;
   final double weight;
 
-  Person(
+  PersonEntity(
     this.id,
     this.name,
     this.age,
@@ -36,8 +36,8 @@ class Person {
     };
   }
 
-  factory Person.fromMap(Map<String, dynamic> map) {
-    return Person(
+  factory PersonEntity.fromMap(Map<String, dynamic> map) {
+    return PersonEntity(
       map['id'] ?? '',
       map['name'] ?? '',
       map['age']?.toInt() ?? 0,
@@ -48,5 +48,5 @@ class Person {
 
   String toJson() => json.encode(toMap());
 
-  factory Person.fromJson(String source) => Person.fromMap(json.decode(source));
+  factory PersonEntity.fromJson(String source) => PersonEntity.fromMap(json.decode(source));
 }
