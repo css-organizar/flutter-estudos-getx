@@ -32,6 +32,14 @@ void main() {
 
           List<PersonEntity> listOfPerson = await PersonRepository(client).getListOfPerson();
 
+          verify(
+            () {
+              return client.get(
+                Uri.parse('${ApplicationSettings.apiUrl}/person'),
+              );
+            },
+          );
+
           expect(listOfPerson, isNotEmpty);
           expect(listOfPerson.length, equals(1));
         },
